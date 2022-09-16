@@ -1,3 +1,4 @@
+deleteVehicle this;
 missionNamespace setVariable['M9SD_ppEffectMenuFadeTime', 0.4];
 uiNamespace setVariable['M9SD_ppEffectMenuFadeTime', M9SD_ppEffectMenuFadeTime];
 uiNamespace setVariable['M9SD_baseTxtSize', safezoneH * 0.5];
@@ -287,6 +288,24 @@ uiNamespace setVariable['M9SD_ppEffectArray', [
 			] remoteExec ['ppEffectAdjust', 0, 'M9SD_JIP_screenFXComp_adjust'];
 			['ColorCorrections', 0] remoteExec ['ppEffectCommit', 0, 'M9SD_JIP_screenFXComp_commit'];
 		}]"
+	],
+	[
+		'Mexico Filter',
+		'Breaking Bad Style Mexico Yellow Color Correction Theme',
+		"[{
+			comment 'preview';
+			'ColorCorrections' ppEffectEnable true;
+			'ColorCorrections' ppEffectAdjust 
+			[1, 0.8, -0.001, [0.0, 0.0, 0.0, 0.0], [0.8*2, 0.5*2, 0.0, 0.7], [0.9, 0.9, 0.9, 0.0]];
+			'ColorCorrections' ppEffectCommit 0;
+		},{
+			comment 'apply';
+			['ColorCorrections', true] remoteExec ['ppEffectEnable', 0, 'M9SD_JIP_screenFXComp_enable'];
+			['ColorCorrections', 
+			[1, 0.8, -0.001, [0.0, 0.0, 0.0, 0.0], [0.8*2, 0.5*2, 0.0, 0.7], [0.9, 0.9, 0.9, 0.0]]
+			] remoteExec ['ppEffectAdjust', 0, 'M9SD_JIP_screenFXComp_adjust'];
+			['ColorCorrections', 0] remoteExec ['ppEffectCommit', 0, 'M9SD_JIP_screenFXComp_commit'];
+		}]"
 	]
 ]];
 comment "Toggle off previewed effect or return to applied effect.";
@@ -383,8 +402,7 @@ M9SD_guifnc_openPPEffectMenu = {
     comment "Add placeholders to bottom so nothing gets cut off."; {
         private _index = _listbox lbAdd _x;
         _listbox lbSetData[_index, "[{},{}]"];
-    }
-    forEach['', ''];
+    } forEach['', ''];
     comment "Preview the effect when clicked on.";
     _listbox ctrlAddEventHandler['LBSelChanged', {
         params['_control', '_selectedIndex'];
